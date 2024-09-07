@@ -68,5 +68,5 @@ Ar_feedbacks_list = [
     "المنتج وصلني في الوقت المحدد، ولكنني لم أستلم أي رسالة تأكيد.",
     "الخدمة كانت سريعة جدا، ولكنني واجهت مشكلة في التواصل مع فريق الدعم."
 ]
-x= summarize(En_feedbacks_list)
+x= summarize(Ar_feedbacks_list)
 print(x)
