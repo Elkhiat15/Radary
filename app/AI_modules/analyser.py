@@ -31,14 +31,18 @@ class issue_analysis(BaseModel):
 
 issue_parser = PydanticOutputParser(pydantic_object=issue_analysis)
 
-def get_img_data(IMG_PATH):
+def get_img_data_(IMG_PATH):
     with open(IMG_PATH, "rb") as image_file:
         image_data = image_file.read()
     image_data_b64 = base64.b64encode(image_data).decode("utf-8")
     return image_data_b64
 
+def get_img_data(image):
+    image_data = image.file.read() 
+    image_data_b64 = base64.b64encode(image_data).decode("utf-8")
+    return image_data_b64
 
-def analyse_accident(IMG_PATH, language = "En"):
+def analyse_accident(image, language = "En"):
     accident_prompt = """
     Analyze the following photo, which may depict an accident, fire, or other hazardous situation.
     Please provide a concise response with the following three pieces of information:
@@ -53,7 +57,7 @@ def analyse_accident(IMG_PATH, language = "En"):
     if language == "Ar":
         accident_prompt = "Give the respose in Arabic language\n" + accident_prompt
 
-    image_data_b64 = get_img_data(IMG_PATH)
+    image_data_b64 = get_img_data(image)
     # Create a message with the image
     accident_message = HumanMessage(
         content=[
@@ -70,7 +74,7 @@ def analyse_accident(IMG_PATH, language = "En"):
     return x.description, x.authority, x.level
 
 
-def analyse_isuue(IMG_PATH, language = "En"):
+def analyse_isuue(image, language = "En"):
     issue_prompt = """
     Analyze the following photo, which may depict environmental issues such as pollution, broken streetlights, and garbage collection.
     Please provide a concise response with the following three pieces of information:
@@ -85,7 +89,7 @@ def analyse_isuue(IMG_PATH, language = "En"):
     if language == "Ar":
         issue_prompt = "Give the respose in Arabic language\n" + issue_prompt
 
-    image_data_b64 = get_img_data(IMG_PATH)
+    image_data_b64 = get_img_data(image)
     # Create a message with the image
     issue_message = HumanMessage(
         content=[
