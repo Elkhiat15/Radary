@@ -6,8 +6,7 @@ from langchain.output_parsers import PydanticOutputParser
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
-import base64 ####
-
+import base64
 
 load_dotenv()
 llm = ChatGoogleGenerativeAI(
