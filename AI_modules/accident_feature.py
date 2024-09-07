@@ -9,58 +9,102 @@ from dotenv import load_dotenv
 import base64
 
 load_dotenv()
+llm = ChatGoogleGenerativeAI(
+            model="gemini-1.5-flash",
+            timeout = None,
+            safety_settings={
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
+                }
+            )
 
 class accident_analysis(BaseModel):
     description: str = Field(description="description of the photo")
-    authority: str = Field(description="authority that can resolve the issue")
+    authority: str = Field(description="the most relevent authority that can help in this accident or fire")
     level: int = Field(description="danger level from 1 to 100")
 
-parser = PydanticOutputParser(pydantic_object=accident_analysis)
+accident_parser = PydanticOutputParser(pydantic_object=accident_analysis)
 
-# Read the image file
-IMG_PATH = "photos\photo2.jpg"
-with open(IMG_PATH, "rb") as image_file:
-    image_data = image_file.read()
+class issue_analysis(BaseModel):
+    description: str = Field(description="description of the photo")
+    authority: str = Field(description="authority that can resolve the issue")
+    priority: int = Field(description="priority level")
 
-# Encode the image data as a base64 string
-image_data_b64 = base64.b64encode(image_data).decode("utf-8")
+issue_parser = PydanticOutputParser(pydantic_object=issue_analysis)
+
+def get_img_data(IMG_PATH):
+    with open(IMG_PATH, "rb") as image_file:
+        image_data = image_file.read()
+    image_data_b64 = base64.b64encode(image_data).decode("utf-8")
+    return image_data_b64
 
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    timeout = None,
-    safety_settings={
-        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
-        }
+def analyse_accident(IMG_PATH, language = "En"):
+    accident_prompt = """
+    Analyze the following photo, which may depict an accident, fire, or other hazardous situation.
+    Please provide a concise response with the following three pieces of information:
+    - Detailed Description:
+    Provide a thorough description of the photo, including any relevant details that would be useful for the relevant authority to know.
+    - Recommended Authority:
+    Suggest the most relevant authority to contact in order to resolve the issue, such as Police, Hospital, Fire Station, or other emergency services.
+    - Danger Level:
+    Assign a danger level from 1 to 100, with 1 being minimal risk and 100 being extreme risk, to help prioritize the response to this situation based on its potential danger to people."
+    {format_instructions}
+    """
+    if language == "Ar":
+        accident_prompt = "Give the respose in Arabic language\n" + accident_prompt
+
+    image_data_b64 = get_img_data(IMG_PATH)
+    # Create a message with the image
+    accident_message = HumanMessage(
+        content=[
+            {"type": "text", "text": accident_prompt.format(format_instructions=accident_parser.get_format_instructions())},
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{image_data_b64}"},
+            },
+        ],
     )
 
+    response = llm.invoke([accident_message])
+    x = accident_parser.parse(response.content)
+    return x.description, x.authority, x.level
 
-user_prompt = """
-Analyze the following photo, which may depict an accident, fire, or other hazardous situation.
-Please provide a concise response with the following three pieces of information:
-- Detailed Description:
-  Provide a thorough description of the photo, including any relevant details that would be useful for the relevant authority to know.
-- Recommended Authority:
-  Suggest the most relevant authority to contact in order to resolve the issue, such as Police, Hospital, Fire Station, or other emergency services.
-- Danger Level:
-  Assign a danger level from 1 to 100, with 1 being minimal risk and 100 being extreme risk, to help prioritize the response to this situation based on its potential danger to people."
-{format_instructions}
-"""
-# Create a message with the image
-message = HumanMessage(
-    content=[
-        {"type": "text", "text": user_prompt.format(format_instructions=parser.get_format_instructions())},
-        {
-            "type": "image_url",
-            "image_url": {"url": f"data:image/png;base64,{image_data_b64}"},
-        },
-    ],
-)
 
-# Invoke the model with the message
-response = llm.invoke([message])
+def analyse_isuue(IMG_PATH, language = "En"):
+    issue_prompt = """
+    Analyze the following photo, which may depict environmental issues such as pollution, broken streetlights, and garbage collection.
+    Please provide a concise response with the following three pieces of information:
+    - Detailed Description:
+    Provide a thorough description of the photo, including any relevant details that would be useful for the relevant authority to know.
+    - Recommended Authority:
+    Suggest the most relevant authority to contact in order to resolve the issue.
+    - Priority Level:
+    Assign a priority level from 1 to 5, with 1 being maximum priority and 5 being minimum priority, to help prioritize the response to this situation based on its potential danger to people and the environment."
+    {format_instructions}
+    """
+    if language == "Ar":
+        issue_prompt = "Give the respose in Arabic language\n" + issue_prompt
 
-x = parser.parse(response.content)
-print(x.description)
-print(x.authority)
-print(x.level)
+    image_data_b64 = get_img_data(IMG_PATH)
+    # Create a message with the image
+    issue_message = HumanMessage(
+        content=[
+            {"type": "text", "text": issue_prompt.format(format_instructions=issue_parser.get_format_instructions())},
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{image_data_b64}"},
+            },
+        ],
+    )
+
+    # Invoke the model with the message
+    response = llm.invoke([issue_message])
+    x = issue_parser.parse(response.content)
+    return x.description, x.authority, x.priority
+
+
+
+x, y, z = analyse_accident("photos\photo2.jpg")
+print(x)
+print(y)
+print(z)
