@@ -29,7 +29,7 @@ def summarize(feedbacks_list):
     return summary
 
 
-# intializing the LLModel
+# TEST
 load_dotenv()
 llm = ChatGoogleGenerativeAI(model="gemini-pro")
 En_feedbacks_list = [
