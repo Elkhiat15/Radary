@@ -104,7 +104,3 @@ def analyse_isuue(IMG_PATH, language = "En"):
 
 
 
-x, y, z = analyse_accident("photos\photo2.jpg")
-print(x)
-print(y)
-print(z)
