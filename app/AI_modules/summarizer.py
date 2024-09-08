@@ -1,5 +1,3 @@
-import numpy as np
-
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.schema import Document
