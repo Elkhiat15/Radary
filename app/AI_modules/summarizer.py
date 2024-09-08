@@ -3,7 +3,6 @@ import numpy as np
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.schema import Document
-from langchain.chains.llm import LLMChain
 from langchain.chains.summarize import load_summarize_chain
 from dotenv import load_dotenv
 
@@ -68,5 +67,3 @@ Ar_feedbacks_list = [
     "المنتج وصلني في الوقت المحدد، ولكنني لم أستلم أي رسالة تأكيد.",
     "الخدمة كانت سريعة جدا، ولكنني واجهت مشكلة في التواصل مع فريق الدعم."
 ]
-x= summarize(En_feedbacks_list)
-print(x)
