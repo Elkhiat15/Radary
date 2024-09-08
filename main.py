@@ -1,7 +1,7 @@
 from fastapi import FastAPI,File, UploadFile, Body
 
 from fastapi.responses import JSONResponse
-from app.AI_modules import analyser, summarizer
+import analyser, summarizer
 import base64
 
 app = FastAPI()
