@@ -27,8 +27,10 @@ def summarize(feedbacks_list):
 
 
 # TEST
-load_dotenv()
-llm = ChatGoogleGenerativeAI(model="gemini-pro")
+#load_dotenv()
+GOOGLE_API_KEY = "AIzaSyDwX1XxrnPMAZhUD0DRgp0K1-EvQeqMZ3Y"
+
+llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY)
 En_feedbacks_list = [
     "I absolutely love the new feature, it's exactly what I've been waiting for!",
     "The UI is really confusing, I've been trying to figure it out for hours but I still can't get the hang of it.",
