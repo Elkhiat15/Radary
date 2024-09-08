@@ -8,9 +8,11 @@ from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 import base64
 
-load_dotenv()
+GOOGLE_API_KEY = "AIzaSyDwX1XxrnPMAZhUD0DRgp0K1-EvQeqMZ3Y"
+#load_dotenv()
 llm = ChatGoogleGenerativeAI(
             model="gemini-1.5-flash",
+            google_api_key=GOOGLE_API_KEY,
             timeout = None,
             safety_settings={
                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
