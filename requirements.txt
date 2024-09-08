@@ -5,4 +5,5 @@ langchain_google_genai==1.0.10
 protobuf
 pydantic==1.10.8
 python-dotenv==1.0.1
+python-multipart
 uvicorn
