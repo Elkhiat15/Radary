@@ -7,14 +7,16 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 import base64
+import os 
 
-GOOGLE_API_KEY = "AIzaSyDwX1XxrnPMAZhUD0DRgp0K1-EvQeqMZ3Y"
-#load_dotenv()
+#GOOGLE_API_KEY = "AIzaSyDwX1XxrnPMAZhUD0DRgp0K1-EvQeqMZ3Y"
 
+load_dotenv()
+API_KEY = os.getenv("GOOGLE_API_KEY")
 # initialize llm with ingnoring dangerous content as the imgae will include accidents and fires 
 llm = ChatGoogleGenerativeAI(
             model="gemini-1.5-flash",
-            google_api_key=GOOGLE_API_KEY,
+            google_api_key=API_KEY,
             timeout = None,
             safety_settings={
                 HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE
