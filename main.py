@@ -2,7 +2,6 @@ from fastapi import FastAPI,File, UploadFile, Body
 
 from fastapi.responses import JSONResponse
 import analyser, summarizer
-import base64
 
 app = FastAPI()
 
@@ -25,10 +24,3 @@ async def analyse_isuue(image: UploadFile = File(...)):
 async def summarize_feedbacks(feedbacks: list[str] = Body(...)):
     x = summarizer.summarize(feedbacks)
     return JSONResponse(content={"summary": x}, media_type="application/json")
-#x, y, z = analyser.analyse_accident("photos\photo2.jpg")
-#print(x)
-#print(y)
-#print(z)
-
-#x= summarizer.summarize(summarizer.Ar_feedbacks_list)
-#print(x)
