@@ -11,7 +11,7 @@ this will open the API interface page like this
 <img src="Assets/interace.JPG" width=70% alt="Interface" > 
 </p>
 
-# Analyse Eco-Accident Endpoind
+# Analyse Accident Endpoind
 ### Problem Statement
 In emergency situations, such as accidents or fires, timely reporting to the relevant authorities like hospitals, police, or fire stations is crucial to save lives. However, in some cases, calling the emergency services may not be necessary or possible. wherefore we are motivated to develop an Ai-powered application that enables users to upload a live photo of the incident, which is then analyzed to assess the danger level and automatically send a report to the nearest relevant authority.
 
@@ -41,7 +41,7 @@ this will show you a response like this **for EX this response related to `accid
 
 ---
 
-# Analyse Issue Endpoind
+# Analyse Eco-Issue Endpoind
 ### Problem Statement  
 Local authorities face a significant challenge in prioritizing and addressing environmental issues reported by citizens, such as pollution, broken streetlights, and garbage collection. The manual process of reviewing and prioritizing these issues is time-consuming, inefficient, and often leads to delayed responses, exacerbating the problems and negatively impacting the environment and public health.
 The goal is to develop an Ai-powered system that can efficiently prioritize environmental issues reported by citizens, enabling local authorities to respond promptly and effectively, and ultimately contributing to a more sustainable environment.
