@@ -5,7 +5,7 @@
 ---
 
 # How to use API?
-Click on [API](radary-production.up.railway.app/docs) to go to the deployed version of the API.
+Click on [API](https://radary-production.up.railway.app/docs) to go to the deployed version of the API.
 this will open the API interface page like this
 <p align="center">
 <img src="Assets/interace.JPG" width=70% alt="Interface" > 
