@@ -2,8 +2,6 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.schema import Document
 from langchain.chains.summarize import load_summarize_chain
-from dotenv import load_dotenv
-import os
 
 def summarize(feedbacks_list):
     """
@@ -48,8 +46,5 @@ def summarize(feedbacks_list):
     return summary
 
 
-load_dotenv()
-
 GOOGLE_API_KEY = "AIzaSyDwX1XxrnPMAZhUD0DRgp0K1-EvQeqMZ3Y"
-API_KEY = os.getenv("GOOGLE_API_KEY")
-llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=API_KEY)
+llm = ChatGoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY)
